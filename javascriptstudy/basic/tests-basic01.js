@@ -292,12 +292,12 @@ test("void", function () {
     }catch (e) {
         ok(e instanceof Error);
         ok("errorMessage",e.message)
-        //Errorの属性（IE依存？）
-        //https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Error
-//        equal("",e.stack)
+        // Errorの属性（IE依存？）
+        // https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Error
+// equal("",e.stack)
     }
 
-    //任意の型がスローできる
+    // 任意の型がスローできる
     throwString = function(){
         throw "xxxx";
     }
@@ -311,8 +311,8 @@ test("void", function () {
 
 });
 
-//文字列型
-//1 テストのグルーピング
+// 文字列型
+// 1 テストのグルーピング
 module("文字列型", {
 // 2 セットアップ
 setup: function () {
@@ -324,21 +324,21 @@ test("Stringの代表的なメソッド", function () {
 	var string = "12345678901234567890";
 
 	equal(4,string.indexOf('5'));
-	equal(14,string.lastIndexOf('5')); //lastIndexOfは、後方の文字列を検索するが、戻り値は前方から何件目かを返す
+	equal(14,string.lastIndexOf('5')); // lastIndexOfは、後方の文字列を検索するが、戻り値は前方から何件目かを返す
 
 	equal(6,string.charAt(5));
-	//slice,substringはどちらも基本的に同じだが、substringは大小関係を気を利かせて逆転してしまう。
-	//the good partsには「substringを使うべき理由はない」と記載あり。なので忘れよう。
+	// slice,substringはどちらも基本的に同じだが、substringは大小関係を気を利かせて逆転してしまう。
+	// the good partsには「substringを使うべき理由はない」と記載あり。なので忘れよう。
 	equal('6789',string.substring(5,9));
 	equal('2345',string.substring(5,1)); //
 
-	//sliceはそういういらんことはしない。
+	// sliceはそういういらんことはしない。
 	equal('6789',string.slice(5,9));
 	equal('',string.slice(5,1));
-	equal('6789',string.slice(5,-11)); //マイナスをつけると、後方からの文字数を表現する。(5～9）
-	equal('23456789012345678',string.slice(-19,-2));//(2～18）
+	equal('6789',string.slice(5,-11)); // マイナスをつけると、後方からの文字数を表現する。(5～9）
+	equal('23456789012345678',string.slice(-19,-2));// (2～18）
 
-	//split
+	// split
 	var splitted = "a,b,c,d,e".split(',');
 	var out = "";
 	for ( var elem in splitted) {
@@ -347,11 +347,11 @@ test("Stringの代表的なメソッド", function () {
 	equal(5,splitted.length);
 	equal('abcde',out);
 
-	//大文字小文字
+	// 大文字小文字
 	equal('aBcDe'.toUpperCase(),'ABCDE');
 	equal('aBcDe'.toLowerCase(),'abcde');
 
-	//anchor 使わんな・・・あとlinkとかsup,supとかある　the good partsには、メソッドについての言及すらない。
+	// anchor 使わんな・・・あとlinkとかsup,supとかある the good partsには、メソッドについての言及すらない。
 	equal("<A NAME=\"bbb\">aaa</A>","aaa".anchor('bbb'));
 
 });
@@ -360,18 +360,18 @@ test("Numberの代表的なメソッド", function () {
 	var num = 123;
 
 	equal('123',num.toString());
-	equal(12,12.45.toFixed(0)); //小数点以下０桁有効、１桁目で四捨五入
-	equal(12.5,12.45.toFixed(1)); //小数点以下１桁有効、２桁目で四捨五入
+	equal(12,12.45.toFixed(0)); // 小数点以下０桁有効、１桁目で四捨五入
+	equal(12.5,12.45.toFixed(1)); // 小数点以下１桁有効、２桁目で四捨五入
 
-	//指定桁数に変換。ただし桁数は、整数部分も含む。小数桁は四捨五入される。。。使えねぇ　
-//	equal(0,12.45.toPrecision(0))
+	// 指定桁数に変換。ただし桁数は、整数部分も含む。小数桁は四捨五入される。。。使えねぇ
+// equal(0,12.45.toPrecision(0))
 	equal(12,12.45.toPrecision(2))
 	equal(12.5,12.45.toPrecision(3))
 	equal(12.4,12.44.toPrecision(3))
 	equal(12.45,12.45.toPrecision(4))
 	equal(12.450,12.45.toPrecision(5))
 
-	//おまけ、Mathオブジェクト。Javaっぽくスタティックっぽいメソッドのみ。その他は、おいおい調べればいいでしょう。
+	// おまけ、Mathオブジェクト。Javaっぽくスタティックっぽいメソッドのみ。その他は、おいおい調べればいいでしょう。
 	equal(1,Math.min(1,2,3,4));
 	equal(4,Math.max(1,2,3,4));
 
@@ -379,46 +379,46 @@ test("Numberの代表的なメソッド", function () {
 
 
 test("Arrayの代表的なメソッド", function (){
-	//配列の結合
+	// 配列の結合
 	var concated = [1,2,3].concat([4,5,6]);
 	equal(concated.toString(),"1,2,3,4,5,6");
 
-	//配列を文字列化
+	// 配列を文字列化
 	equal('1#2#3#4#5#6',concated.join('#'));
 
-	//配列を抽出
-	equal('3,4',concated.slice(2,4)); //2～4-1まで切り抜き。指定しない場合はarray.lengthがtoに指定されるので、こういう仕様っぽい。。
+	// 配列を抽出
+	equal('3,4',concated.slice(2,4)); // 2～4-1まで切り抜き。指定しない場合はarray.lengthがtoに指定されるので、こういう仕様っぽい。。
 
-	//配列の一部を置き換え。よく使うらしい。そうだろう…。
-	var spliced = concated.splice(1,3,'@','#','\'');//start+1～指定した数分の配列値を置き換える。わかりづらい。。。
-	equal('2,3,4',spliced); //戻り値は、置き換えられた配列値
-	equal('1,@,#,\',5,6',concated); //配列の参照側が操作される。
+	// 配列の一部を置き換え。よく使うらしい。そうだろう…。
+	var spliced = concated.splice(1,3,'@','#','\'');// start+1～指定した数分の配列値を置き換える。わかりづらい。。。
+	equal('2,3,4',spliced); // 戻り値は、置き換えられた配列値
+	equal('1,@,#,\',5,6',concated); // 配列の参照側が操作される。
 
-	//配列末尾を除去
+	// 配列末尾を除去
 	var array = [1,2,3,4,5,6];
 	equal(array.pop(),6);
 	equal(array.toString(),"1,2,3,4,5");
 
-	//配列先頭を除去
+	// 配列先頭を除去
 	equal(array.shift(),1);
 	equal(array.toString(),"2,3,4,5");
 
-	//配列末尾に値を設定
+	// 配列末尾に値を設定
 	array.push(7);
 	equal(array.toString(),"2,3,4,5,7");
 
-	//配列先頭に値を設定
+	// 配列先頭に値を設定
 	array.unshift(9);
 	equal(array.toString(),"9,2,3,4,5,7");
 
-	//逆順ソート
+	// 逆順ソート
 	equal([1,2,3].reverse(),"3,2,1");
-	//ソート
+	// ソート
 	equal([3,2,1].sort(),"1,2,3");
 	array = ['111','22','3'];
 
-	//x,yを比較し、xの方が小さい場合はマイナス、yの方が小さい場合はプラスを返却。
-	//数値の場合は、return x - yとするイメージ。以下は、文字列長が短い順にソートする場合。
+	// x,yを比較し、xの方が小さい場合はマイナス、yの方が小さい場合はプラスを返却。
+	// 数値の場合は、return x - yとするイメージ。以下は、文字列長が短い順にソートする場合。
 	array.sort(function(x,y){
 		return x.length - y.length;
 	});
@@ -427,25 +427,25 @@ test("Arrayの代表的なメソッド", function (){
 });
 
 test("Dateの代表的なメソッド", function (){
-	//システム日時
+	// システム日時
     var currentDate = new Date();
     ok(true,currentDate);
 
     var date = new Date('2015/1/3');
     ok('Sat Jan 3 00:00:00 UTC+0900 2015',date);
 
-    //TODO 寝かしておこう。
+    // TODO 寝かしておこう。
 
 });
 
 test("RegExpの代表的なメソッド",function(){
 
-	//regexpオブジェクトをコンストラクタで生成しない方法　…perlライクにかける。
-	// /正規表現/オプション。　
+	// regexpオブジェクトをコンストラクタで生成しない方法 …perlライクにかける。
+	// /正規表現/オプション。
 	var regexp = /(\w+)/g;
 	var str = "aaaa bbb cde fg1";
 
-	//matchは正規表現に一致した文字を返却する。
+	// matchは正規表現に一致した文字を返却する。
 	var matched = str.match(regexp);
 	equal(4,matched.length);
 	equal(matched[0],'aaaa');
@@ -453,8 +453,8 @@ test("RegExpの代表的なメソッド",function(){
 	equal(matched[2],'cde');
 	equal(matched[3],'fg1');
 
-	//execは、マッチするたびにそのマッチ文字列・サブマッチ文字列を返却。
-	//どこまでマッチしたかはregexpが覚えており、もう一回呼ぶと次のマッチが実行される。マッチしないとnull。
+	// execは、マッチするたびにそのマッチ文字列・サブマッチ文字列を返却。
+	// どこまでマッチしたかはregexpが覚えており、もう一回呼ぶと次のマッチが実行される。マッチしないとnull。
 	var result = regexp.exec(str);
 	equal(result,'aaaa,aaaa');
 	result = regexp.exec(str);
@@ -466,11 +466,11 @@ test("RegExpの代表的なメソッド",function(){
 	result = regexp.exec(str);
 	equal(result,null);
 
-	//testは、マッチするかどうかをbooleanで返却。
+	// testは、マッチするかどうかをbooleanで返却。
 	ok(!regexp.test('&&&'));
 	ok(regexp.test('aaa bb ccc'));
 
-	//正規表現による分解
+	// 正規表現による分解
 	regexp = /[,@*]/g;
 	var splitted = 'abc,de@*g'.split(regexp);
 	equal(4,splitted.length);
@@ -479,35 +479,13 @@ test("RegExpの代表的なメソッド",function(){
 	equal(splitted[2],'');
 	equal(splitted[3],'g');
 
-	//正規表現による置換
+	// 正規表現による置換
 	var str = 'abc,de@*g';
-	var replaced = str.replace(regexp,'/'); //stringは参照型ではないので、変更された文字列が返却される。
-	equal(str,'abc,de@*g'); //置換前　。
+	var replaced = str.replace(regexp,'/'); // stringは参照型ではないので、変更された文字列が返却される。
+	equal(str,'abc,de@*g'); // 置換前 。
 	equal(replaced,'abc/de//g');
 
 });
 
-//ES6からはイテレータがあるがES5前提では使えないので、使わずに…。
+// ES6からはイテレータがあるがES5前提では使えないので、使わずに…。
 
-test("オブジェクト",function(){
-
-	//リフレクション good partsの記載と違うな。。。
-	var obj = {
-		foo : "foo",
-		age : 25,
-		hello : function(){
-			return "hello";
-		}
-	};
-
-	ok(true,obj.constructor)
-
-	for ( var i in obj) {
-		ok(true,obj[i]);
-	}
-
-    ok(true,obj.prototype);
-	for ( var j in obj.prototype) {
-		ok(true,obj.prototype[j]);
-	}
-});
