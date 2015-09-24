@@ -259,5 +259,19 @@ test("クロージャ",function(){
 
 });
 
+test("初期値イディオム",function(){
+
+	var calc = function(x,y){
+		x = x || 1;
+		y = y || 1;
+		return x * y;
+	}
+
+	equal(1,calc());
+	equal(5,calc(5));
+	equal(10,calc(5,2));
+
+});
+
 //TODO カリー化。後で読もう…
 //http://qiita.com/KDKTN/items/6a27c0e8efa66b1f7799

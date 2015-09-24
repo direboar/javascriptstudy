@@ -187,5 +187,29 @@ test("継承2", function() {
 	equal('こんにちはほげです(性別:男)', ext.sayHello());
 	equal('男', ext.getSex());
 
+});
 
+test("staticメソッド風", function() {
+	//Javaのstaticメソッドっぽいものの実現方式。
+	//なんということはない.
+	//1.JavaScriptにはクラスの概念がなく、new呼び出ししたy際の関数オブジェクトをクラスに見立てているだけ
+	//2.JavaScriptでは関数もオブジェクト
+	//3.なので、コンストラクタ呼出しが前提となる関数オブジェクトのプロパティとして、関数を設定してあげれば良いだけの話。
+
+	var Person = function(name){
+		this.name = name;
+	}
+	//インスタンスメソッド（というか、プロトタイプのメソッド。）
+	Person.prototype.getName = function(){
+		return this.name;
+	}
+
+	//factory methodをスタティック風に定義。
+	Person.create = function(name){
+		name = "[[" + name + "]]";
+		return new Person(name);
+	}
+
+    var person = Person.create("eiji");
+    equal("[[eiji]]",person.getName());
 });
