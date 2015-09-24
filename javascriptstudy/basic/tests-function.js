@@ -1,3 +1,5 @@
+"use strict";
+
 //1 テストのグルーピング
 module("関数", {
 	// 2 セットアップ
@@ -88,7 +90,7 @@ test("関数呼び出しパターン３：コンストラクタ呼び出し", fu
 	// コンストラクタ呼出し（newキーワード）とは？
 
 	// 1.呼び出し時に、暗黙的にオブジェクトが生成され、thlsに設定される。
-	//   生成されるオブジェクトのプロトタイプには、new呼び出しされた関数オブジェクトが設定される。
+	//   生成されるオブジェクトは、new呼び出しされた関数オブジェクトのプロトタイプへの暗黙的リンクが__proto__に設定される。
 	// 2.コンストラクタ内では、thisはコンストラクタで生成されたオブジェクトを指す。
 	// 3.コンストラクタで生成されたオブジェクトのconstructorプロパティは、newキーワードで呼びだされた関数オブジェクトとなる。
 	// 　よってnewキーワードで呼びだされた関数オブジェクトのプロトタイプが継承される。
@@ -119,7 +121,7 @@ test("関数呼び出しパターン３：コンストラクタ呼び出し", fu
 
 });
 
-test("関数呼び出しパターン３：apply呼び出し", function() {
+test("関数呼び出しパターン４：apply/call呼び出し", function() {
 	var MyConstructor = function(x, y) {
 		this.x = x;
 		this.y = y;
@@ -139,6 +141,32 @@ test("関数呼び出しパターン３：apply呼び出し", function() {
 
 	equal(303, MyConstructor.prototype.sum.apply(obj, [ 1, 2 ]));
     // equal("",Function.prototype.apply);
+
+	//callはapplyと同じだが、引数を配列にする必要が無い。
+	equal(303, MyConstructor.prototype.sum.call(obj,  1, 2 ));
+});
+
+test("関数呼び出し：番外 bind",function(){
+
+	function hoge(){
+		return this.x;
+	}
+
+	x = 1;//Globalオブジェクトに設定
+	equal(1,hoge());
+
+	//オブジェクトにバインドする。
+	//メソッド呼出し時、バインドされたオブジェクトがthisに設定される。
+	//なお、元のFunctionオブジェクトは変更されず、バインド済みのFunctionが戻り値として返却される。
+	var obj = {x:100};
+	equal(100,obj.x);
+	var hogeBinded = hoge.bind(obj);
+
+	equal(1,hoge());
+	equal(100,hogeBinded());
+
+	delete Window.x;
+
 });
 
 test("arguments引数", function() {
