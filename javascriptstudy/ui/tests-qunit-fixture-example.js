@@ -1,8 +1,8 @@
 "use strict";
 
 /**
- * qUnit Fixtureの代替を実現するクラス。
- * <div id='#qunit-fixture'>を使用した場合、対象のdivはブラウザに表示されずわかりづらい。
+ * qUnit Fixtureの代替を実現するクラス その２ ajaxで外部HTMLを読み込めるようにした。。 <div
+ * id='<#qunit-fixture'>を使用した場合、対象のdivはブラウザに表示されずわかりづらい。
  * そのため、上記以外のdivを設け、対象のdivのテスト毎初期化処理を行う。
  */
 var Fixture = (function(){
@@ -11,16 +11,39 @@ var Fixture = (function(){
 	var Fixture = function(){
 	}
 
-	Fixture.prototype.storeFixture = function storeFixture() {
+	Fixture.prototype.setupFixture = function storeFixture() {
 		var fixture = $("#custom-fixture" );
 		if ( fixture ) {
 			fixtureHtml = fixture.html();
 		}
+		alert("setupFixture:"+fixtureHtml)
 	}
 
-	Fixture.prototype.restoreFixture = function restoreFixture(){
+	Fixture.prototype.replaceFixture = function replaceFixture(replaceHtml) {
+		if(replaceHtml != undefined && replaceHtml != null){
+			$.ajax(
+				{
+					async : false,
+					type : 'GET',
+					url : replaceHtml,
+					dataType : 'html',
+					success  : function(data){
+						alert("replaceFixture:"+data)
+						$("#custom-fixture").html(data);
+					},
+					error : function(xhr, textStatus, errorThrown){
+						alert(textStatus);
+						alert(errorThrown);
+					}
+				}
+			);
+		}
+	}
+
+	Fixture.prototype.teardownFixture = function restoreFixture(){
 		var fixture = $("#custom-fixture" );
 		if ( fixture ) {
+			alert("teardownFixture:"+fixtureHtml)
 			fixture.html(fixtureHtml);
 		}
 	}
@@ -30,48 +53,37 @@ var Fixture = (function(){
 // 1 テストのグルーピング
 module("UIテストサンプル", {
   // 2 セットアップ
-  setup: function () {
-	  //#custom-fixtureのストア処理
-	  Fixture.storeFixture();
-
-	  //Loggerのwrite処理を起きかえ
+  beforeEach:function () {
+	  // Loggerのwrite処理を起きかえ
 	  minokuba_utils.logger.write = function(message){
 		  $('#log-message-ol').append('<li>'+message+'</li>');
 	  };
-  },
-  teardown : function() {
-	  //#custom-fixtureのリストア処理
-	  Fixture.restoreFixture();
 
-	  //Logger出力エリアは、必要ならクリアできる
+	  // #custom-fixtureのストア処理
+	  Fixture.setupFixture();
+
+  },
+  afterEach:function() {
+	  // #custom-fixtureのリストア処理
+	  Fixture.teardownFixture();
+
+	  // Logger出力エリアは、必要ならクリアできる
 	  $('#log-message-ol').empty();
   }
 });
 
+
+
 // 3 テストケース定義
 test("UIテストサンプル", function () {
-	  $('#btn1').bind('click',function(){
-		minokuba_utils.logger.log("xxxx");
-	  });
-	$('#btn1').click();
+	  minokuba_utils.logger.log("test1");
 
-	//クリックイベントが確かに呼ばれたことを確認する。
-	var messages = $('#log-message-ol>*');
-	equal(messages[0].innerText,"xxxx")
-
-	$('#txt1').val('Hello,World');
-	equal($('#txt1').val(),'Hello,World');
-
+	Fixture.replaceFixture('./html/html-test01.html');
+	ok(true);
 });
 
-test("UIテストサンプル(#custom-fixtureの挙動確認)", function () {
-	$('#btn1').click();
-
-	//イベントオブジェクトがクリアされているので、クリックしても反映されない。
-	var messages = $('#log-message-ol>*');
-	equal(0,messages.length);
-
-	//HTMLの値が、JavaScriptで操作される前に戻されている。
-	equal($('#txt1').val(),'初期値');
-
+//3 テストケース定義
+test("UIテストサンプル2", function () {
+	  minokuba_utils.logger.log("test2");
+	ok(true);
 });

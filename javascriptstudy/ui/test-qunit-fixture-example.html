@@ -7,8 +7,15 @@
 </head>
 <body>
   <div id="qunit"></div>
-  <!--qunit-fixtureに定義したタグは、テスト実行都度クリアされる。-->
+  <!--qunit-fixtureに定義したタグは、テスト実行都度クリアされる。
+      ただしブラウザ上表示されないため、人間が目視できない。-->
   <!--div id='qunit-fixture'-->
+
+  <!--custom-fixtureはqunit-fixtureと同目的だが、人間が目視できるよう、
+      qunitではなくテスト中で独自にsetup/teardownを行うようにした。
+      また、HTMLの断片を別ファイルに定義し、ajaxで取得しcustom-fixtureの内容をテストごとに置き換え可能とした。
+      （FireFoxではセキュリティエラーとなるため、jscoverなどの併用が必要。）
+      -->
   <div id='custom-fixture'>
     <input type='checkbox' id='cb1' name='cb1'
            data-toggle-target='#tb1' value='on'/>
@@ -23,6 +30,6 @@
   <script src="../lib/qunit-1.19.0.js"></script>
   <script src="../lib/jquery-1.11.3.js"></script>
   <script src="../lib/logger.js"></script>
-  <script src="tests-qunit-fixture-example.js"></script>
+  <script src="tests-qunit-fixture-example-2.js"></script>
 </body>
 </html>
