@@ -18,17 +18,15 @@ module("UIテストサンプル", {
 		testutils.htmlfixture.teardownFixture();
 
 		// Logger出力エリアは、必要ならクリアできる
-//		$('#log-message-ol').empty();
+		$('#log-message-ol').empty();
 	}
 });
-
-
 
 //3 テストケース定義
 test("UIテストサンプル", function () {
 	testutils.logger.log("test1");
 
-	testutils.htmlfixture.replaceFixture('./html/html-test01.html');
+	testutils.htmlfixture.replaceFixture('./html/html-fixture-example.html');
 	ok(true);
 });
 

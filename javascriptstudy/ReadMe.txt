@@ -7,6 +7,14 @@ jacascriptstudy
   lib      ・・・ qUnitの共有するスクリプト、cssを格納。
   template ・・・ qUnitのテストケースを作成するために必要な、jsファイルおよびhtmlファイル。
 
+
+実行方法
+１）start-jcover.batを起動
+２）http://localhost:81/を起動し、テストHTMLを表示。
+※カバレッジはhttp://localhost:81/jscoverage.html
+
+
+
 *****
 方針
 
