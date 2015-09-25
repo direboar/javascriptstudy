@@ -46,9 +46,10 @@ if(!testutils){
 }(testutils));
 
 /**
- * qUnit Fixtureの代替を実現するクラス その２ ajaxで外部HTMLを読み込めるようにした。。 <div
+ * qUnit Fixtureの代替を実現するクラス
  * id='<#qunit-fixture'>を使用した場合、対象のdivはブラウザに表示されずわかりづらい。
  * そのため、上記以外のdivを設け、対象のdivのテスト毎初期化処理を行う。
+ * また、ajaxで外部HTMLを読み込める。（ファイル指定のため、JSCoverを使用するなど、クロスブラウザ対策は必要。）
  * **TODO コメント追加**
  */
 (function(testutils){
