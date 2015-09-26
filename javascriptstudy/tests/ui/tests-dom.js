@@ -98,6 +98,82 @@ test("ノードの選択", function () {
 
 });
 
-test("ノードの追加・編集", function () {
+test("ノードの追加・編集・削除", function () {
+	//ノードの追加。
+	var input = document.createElement('input');
+	input.name = 'append-text-name';
+	input.type = 'text';
+	input.id = 'append-text-id';
+	input.value = 'あああ'; //何故innerHTMLでとれない・・・？
+
+	var customFixture = document.getElementById('custom-fixture');
+	customFixture.appendChild(input);
+
+	var html = customFixture.innerHTML;
+	var pattern = /<input name="append-text-name" id="append-text-id" type="text">/;
+	ok(pattern.test(html),html);
+
+	//ノードの削除
+	customFixture.removeChild(input);
+
+	//insertbeforeなどを使うと、指定したElementの前に追加できる。
+	var checkbox = document.getElementById('checkbox-id');
+	testutils.logger.log(checkbox);
+	customFixture.insertBefore(input,checkbox);
+	html = customFixture.innerHTML;
+	pattern = /<input name="append-text-name" id="append-text-id" type="text"><input name="checkbox-name" id="checkbox-id" type="checkbox">/;
+	ok(pattern.test(html),html);
+
+	//ノードの変更は、そのまま編集するか、replaceChild。
+	input.name = 'alterd-text-name';
+	html = customFixture.innerHTML;
+	pattern = /<input name="alterd-text-name" id="append-text-id" type="text"><input name="checkbox-name" id="checkbox-id" type="checkbox">/;
+	ok(pattern.test(html),html);
+
+	var hidden = document.createElement('input');
+	hidden.name = 'append-hidden-name';
+	hidden.type = 'hidden';
+	hidden.id = 'append-hidden-id';
+	hidden.value = 'あああ';
+	customFixture.replaceChild(hidden,input);
+	html = customFixture.innerHTML;
+	pattern = /<input name="append-hidden-name" id="append-hidden-id" type="hidden" value="あああ"><input name="checkbox-name" id="checkbox-id" type="checkbox">/;
+	ok(pattern.test(html),html);
+
+	//innerHTML
+	//子ノードを全部削除
+	var children = customFixture.children;
+	var childrenArray = Array.prototype.slice.call(children);
+	for ( var idx in childrenArray) {
+		customFixture.removeChild(childrenArray[idx]);
+	}
+
+	//innerHTMLの設定確認
+	customFixture.innerHTML = '<input type="text" id="id" name="name" value="ZZZ"/>'
+	var input2 = document.getElementById('id');
+	equal(input2.type,'text');
+	equal(input2.name,'name');
+	equal(input2.value,'ZZZ');
+	equal(input2.tagName,'INPUT');
+
+	//textContent
+	customFixture.innerHTML = '';
+	customFixture.textContent = '<input type="text" id="id" name="name" value="ZZZ"/>';
+	input2 = document.getElementById('id');
+	ok(!input2);
+	html = customFixture.innerHTML;
+	pattern = /&lt;input type="text" id="id" name="name" value="ZZZ"\/&gt;/; //タグではなく、値として設定されるためHTMLエスケープされている。
+	ok(pattern.test(html),html);
+
+	//documentFragmentを使って、複数ノードの更新を1回で行う。
+	customFixture.innerHTML = '';
+	var fragment =document.createDocumentFragment();
+	for ( var int = 0; int < 10; int++) {
+		fragment.appendChild(document.createElement('input'));
+	}
+	customFixture.appendChild(fragment);
+	html = customFixture.innerHTML;
+	pattern = /<input><input><input><input><input><input><input><input><input><input>/;
+	ok(pattern.test(html),html);
 
 });

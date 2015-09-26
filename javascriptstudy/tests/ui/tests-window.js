@@ -46,7 +46,7 @@ test("window.location,window.history,window.frames", function () {
 		equal('aaaaa',window.frames[0].document.getElementById('txt1').value);
 		//非同期テストが完了したので、同期処理側に完了を通知する。
 		start();
-	},1000);
+	},100);
 
 //url指定してページ遷移
 //	window.location.href = "./html/html-iframe-content02.html";
