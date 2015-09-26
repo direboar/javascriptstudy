@@ -173,7 +173,7 @@ test("イベントハンドラ", function () {
 	var ankorListener = function(e){
 		testutils.logger.log('cancel ankor',2);
 		e.preventDefault();
-//		return false; // return falseでイベントキャンセルできるのは、イベントハンドラの場合のみ。リスナのキャンセルには使えない。
+//		return false; // return falseでイベントキャンセルできるのは、イベントハンドラの場合のみ。イベントリスナのキャンセルには使えない。
 	}
 	ankor.addEventListener('click',ankorListener);
 	ankor.click(); //キャンセルが失敗したら画面遷移するため、テストが失敗する（というか、Yahooに飛んで行く）
