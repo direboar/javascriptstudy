@@ -184,5 +184,8 @@ test("イベントハンドラ", function () {
 	//stopPropagation,stopPropagationImmediately …イベント伝搬を停止する
 	//省略。。
 
+	//独自イベント。
+	//省略。。
+
 });
 
