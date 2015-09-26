@@ -9,6 +9,11 @@ module("Windowオブジェクト", {
 			$('#log-message-ol').append('<li>'+message+'</li>');
 		};
 
+		// Logger出力エリアは、必要ならクリアできる
+		$('#log-message-ol').empty();
+
+		frames[0].src = "./html/html-iframe-content01.html";
+
 		// #custom-fixtureのストア処理
 		testutils.htmlfixture.setupFixture();
 
@@ -17,10 +22,6 @@ module("Windowオブジェクト", {
 		// #custom-fixtureのリストア処理
 		testutils.htmlfixture.teardownFixture();
 
-		// Logger出力エリアは、必要ならクリアできる
-		$('#log-message-ol').empty();
-
-		frames[0].src = "./html/html-iframe-content01.html";
 
 	}
 });

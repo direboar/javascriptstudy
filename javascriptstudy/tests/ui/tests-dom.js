@@ -8,18 +8,19 @@ module("DOM", {
 		testutils.logger.write = function(message){
 			$('#log-message-ol').append('<li>'+message+'</li>');
 		};
+		// Logger出力エリアは、必要ならクリアできる
+		$('#log-message-ol').empty();
 
 		// #custom-fixtureのストア処理
 		testutils.htmlfixture.setupFixture();
 		testutils.htmlfixture.replaceFixture('./html/html-testdom.html');
+
 
 	},
 	afterEach:function() {
 		// #custom-fixtureのリストア処理
 		testutils.htmlfixture.teardownFixture();
 
-		// Logger出力エリアは、必要ならクリアできる
-// $('#log-message-ol').empty();
 	}
 });
 

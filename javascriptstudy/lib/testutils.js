@@ -32,14 +32,14 @@ if(!testutils){
 
 	Logger.prototype.log = function(message,level) {
 		level = level || 1;
-		if(this.level >= level){
+		if(this.level <= level){
 			this.write(_.escape(message)); //use underscore.js
 		}
 	}
 
 	Logger.prototype.dump = function(object,level) {
 		level = level || 1;
-		if(this.level >= level){
+		if(this.level <= level){
 			var message = "";
 			for (var name in object) {
 				message = message + name +"="+object[name] + ",";
