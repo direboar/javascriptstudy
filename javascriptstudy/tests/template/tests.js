@@ -1,8 +1,8 @@
 // 引数なし例外
 //var ArgumentNullException = function () { };
 
-var MyException = {
-	message : ""
+var MyException = function(message){
+    this.message = message;
 };
 
 function throwError(){
@@ -10,7 +10,7 @@ function throwError(){
 }
 
 function throwException(){
-	throw new MyException();
+	throw new MyException('error');
 }
 
 // 1 テストのグルーピング
@@ -28,7 +28,7 @@ test("数字を返す", function () {
   	ng();
   }catch(e){
   	ok(e instanceof Error,"型チェック");
-  	ok(e.message == "error","message");
+    ok(e.message == "error","message");
   }
 });
 
@@ -38,7 +38,8 @@ test("数字を返す", function () {
   	throwException();
   	ng();
   }catch(e){
-  	ok(e instanceof Error,"型チェック");
+    alert(e.message)
+  	ok(e instanceof MyException,"型チェック");
   	ok(e.message == "error","message");
   }
 });
