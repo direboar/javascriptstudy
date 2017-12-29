@@ -38,7 +38,6 @@ test("数字を返す", function () {
   	throwException();
   	ng();
   }catch(e){
-    alert(e.message)
   	ok(e instanceof MyException,"型チェック");
   	ok(e.message == "error","message");
   }
